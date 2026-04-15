@@ -98,7 +98,7 @@ After connecting, the sidebar immediately shows the **wallet address** and **liv
 
 After filling the form and clicking **"🛡️ ASSINAR E REGISTRAR ATIVO"**, Freighter signs the XDR transaction and broadcasts it to the Stellar Testnet. The result panel displays:
 
-- ✅ **"Ativo Tokenizado com Sucesso!"** confirmation
+- ✅ **"Registro Realizado com Sucesso!"** confirmation
 - The full **TX Hash** in green monospace text
 - A direct link: **"🔍 Ver Certidão Pública"** → opens Stellar Expert
 
