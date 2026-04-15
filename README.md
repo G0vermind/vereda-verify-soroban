@@ -136,10 +136,10 @@ cargo test
 
 -----
 
-\<div align="center"\>
+<div align="center">
 
 Construído com 🌱 para florestas sustentáveis e transparência total.
 
-**[Stellar Expert](https://www.google.com/search?q=https://stellar.expert)** · **[Rust Lang](https://www.rust-lang.org/)** · **[Soroban](https://soroban.stellar.org)**
+**[Stellar Expert](https://stellar.expert)** · **[Rust Lang](https://www.rust-lang.org/)** · **[Soroban](https://soroban.stellar.org)**
 
-</div\>
+</div>
