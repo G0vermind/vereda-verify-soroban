@@ -1,26 +1,28 @@
-# Vereda.Verify - Stellar RWA Oracle 🌳
-*(Stellar Journey to Mastery - Rise In Monthly Builder Challenge)*
+# 🌳 Vereda.Verify - Stellar RWA & Timber Tracking
 
-## 🇺🇸 English
-**Vereda.Verify** is a decentralized oracle and digital ledger built on the Stellar network (using Soroban). Designed as a sister-application to the **Florestas.Social** ecosystem, it serves as the "Proof of Life" and immutable field auditor for tokenized environmental assets (Real World Assets - RWA). 
+## 📖 Project Description
+Vereda.Verify is an Enterprise Resource Planning (ERP) and auditing dApp built on the **Stellar Network**. It is designed to track Real World Assets (RWA) in the forestry sector, specifically focusing on the lifecycle of African Mahogany (Khaya senegalensis) from seed to sawmill.
 
-**Core Objective:**
-To bridge physical forestry operations with on-chain finance, ensuring that exotic timber exports (like African Mahogany - *Khaya senegalensis*) have an unforgeable cryptographic passport, replacing traditional bureaucratic bottlenecks with mathematical trust.
+This decentralized application connects with the **Freighter Wallet** to authenticate field engineers and auditors. It allows them to register immutable auditing data (Merkle root payloads of certificates, GPS coordinates, and invoices) directly onto the Stellar Testnet via transaction memos. The system ensures transparency, traceability, and ESG compliance for international timber investors.
 
-**Key Features:**
-* **Immutable Forestry Data:** On-chain registration of tree growth metrics (e.g., DBH - Diameter at Breast Height).
-* **Smart Escrow Triggers:** Acts as the single source of truth to unlock cross-border payments and B2B2C Green Cashback distributions on the main Florestas.Social platform.
-* **Tech Stack:** Rust, Soroban Smart Contracts, Stellar Testnet.
+**Key Features built for this submission:**
+- Freighter Wallet integration (Connect & Sign).
+- Live fetching of Native XLM balances on the Testnet.
+- Dynamic construction of XDR transactions with custom Memos.
+- Successful broadcasting of transactions to the Stellar Testnet.
 
 ---
 
-## 🇧🇷 Português
-**Vereda.Verify** é um oráculo descentralizado e cartório digital construído na rede Stellar (usando Soroban). Projetado como uma aplicação-irmã para o ecossistema **Florestas.Social**, atua como a "Prova de Vida" e auditor de campo imutável para ativos ambientais tokenizados (Real World Assets - RWA).
+## ⚙️ Setup Instructions (How to run locally)
 
-**Objetivo Central:**
-Conectar operações florestais físicas com finanças on-chain, garantindo que a exportação de madeiras exóticas (como o Mogno Africano - *Khaya senegalensis*) tenha um passaporte criptográfico infalsificável, substituindo gargalos burocráticos por confiança matemática.
+To run this project on your local machine, follow these steps:
 
-**Funcionalidades Principais:**
-* **Dados Florestais Imutáveis:** Registro on-chain de métricas de crescimento das árvores (ex: DAP - Diâmetro à Altura do Peito).
-* **Gatilhos de Smart Escrow:** Atua como a fonte única da verdade para destravar pagamentos transfronteiriços e distribuições de Cashback Verde B2B2C na plataforma principal Florestas.Social.
-* **Tech Stack:** Rust, Soroban Smart Contracts, Stellar Testnet.
+### Prerequisites
+1. **Node.js** installed (v16 or higher recommended).
+2. **Freighter Wallet Extension** installed in your browser and configured to the **Stellar Testnet**.
+3. Your Freighter Testnet account must be funded (you can use the [Stellar Laboratory Friendbot](https://laboratory.stellar.org/#account-creator?network=test)).
+
+### Installation
+1. Clone this repository:
+   ```bash
+   git clone <YOUR_GITHUB_REPO_URL>
