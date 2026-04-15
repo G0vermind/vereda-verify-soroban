@@ -72,7 +72,7 @@ Open **http://localhost:8080** in your browser.
 
 Before connecting a wallet, the app shows the three supply chain modules in the sidebar and prompts the user to connect via Freighter.
 
-![Disconnected state — wallet not connected](images/vereda%200.png)
+![Disconnected state — wallet not connected](painel/docs/screenshots/0-disconnected.png)
 
 ---
 
@@ -82,15 +82,15 @@ After connecting, the sidebar immediately shows the **wallet address** and **liv
 
 **Serraria module** — two-stage sawmill form (timber intake + sales dispatch):
 
-![Serraria module — wallet connected, balance displayed](images/vereda%201.png)
+![Serraria module — wallet connected, balance displayed](painel/docs/screenshots/1-serraria-connected.png)
 
 **Plantio module** — plantation registration with GPS coordinates and CAR number:
 
-![Plantio module — wallet connected, balance displayed](images/vereda%202.png)
+![Plantio module — wallet connected, balance displayed](painel/docs/screenshots/2-plantio-connected.png)
 
 **Viveiro module** — nursery registration for seedling lots:
 
-![Viveiro module — wallet connected, balance displayed](images/vereda%203.png)
+![Viveiro module — wallet connected, balance displayed](painel/docs/screenshots/3-viveiro-connected.png)
 
 ---
 
@@ -102,7 +102,7 @@ After filling the form and clicking **"🛡️ ASSINAR E REGISTRAR ATIVO"**, Fre
 - The full **TX Hash** in green monospace text
 - A direct link: **"🔍 Ver Certidão Pública"** → opens Stellar Expert
 
-![Successful testnet transaction — result shown to user](images/vereda%204.png)
+![Successful testnet transaction — result shown to user](painel/docs/screenshots/4-success.png)
 
 ---
 
@@ -140,13 +140,20 @@ After filling the form and clicking **"🛡️ ASSINAR E REGISTRAR ATIVO"**, Fre
 
 ```
 vereda-verify-soroban/
-├── images/                  ← App screenshots
+├── images/                       ← Original screenshots (source)
 └── painel/
+    ├── docs/
+    │   └── screenshots/
+    │       ├── 0-disconnected.png
+    │       ├── 1-serraria-connected.png
+    │       ├── 2-plantio-connected.png
+    │       ├── 3-viveiro-connected.png
+    │       └── 4-success.png
     ├── src/
-    │   ├── App.tsx          # All UI, state, and blockchain logic
-    │   ├── main.tsx         # React entry point
-    │   └── index.css        # Global reset (light-mode enforced)
-    └── vite.config.ts       # Buffer polyfill for Stellar SDK
+    │   ├── App.tsx               # All UI, state, and blockchain logic
+    │   ├── main.tsx              # React entry point
+    │   └── index.css             # Global reset (light-mode enforced)
+    └── vite.config.ts            # Buffer polyfill for Stellar SDK
 ```
 
 ### Transaction Flow
