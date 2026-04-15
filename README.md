@@ -83,15 +83,15 @@ After connecting Freighter, the sidebar immediately displays the **wallet addres
 
 **Viveiro module** (nursery registration):
 
-![Wallet connected — Viveiro module with balance](painel/docs/screenshots/3-viveiro-connected.png)
+![Wallet connected — Viveiro module with balance](https://github.com/G0vermind/vereda-verify-soroban/blob/main/images/vereda%201.png)
 
 **Plantio module** (plantation tracking):
 
-![Wallet connected — Plantio module with balance](painel/docs/screenshots/2-plantio-connected.png)
+![Wallet connected — Plantio module with balance](https://github.com/G0vermind/vereda-verify-soroban/blob/main/images/vereda%202.png)
 
 **Serraria module** (sawmill — two-stage form):
 
-![Wallet connected — Serraria module with balance](painel/docs/screenshots/1-serraria-connected.png)
+![Wallet connected — Serraria module with balance](https://github.com/G0vermind/vereda-verify-soroban/blob/main/images/vereda%203.png)
 
 ---
 
@@ -103,7 +103,7 @@ After filling the form and clicking **"🛡️ ASSINAR E REGISTRAR ATIVO"**, Fre
 - The full **TX Hash** in green monospace
 - A **"🔍 Ver Certidão Pública"** button linking to Stellar Expert
 
-![Successful testnet transaction — result displayed to user](painel/docs/screenshots/4-success.png)
+![Successful testnet transaction — result displayed to user](https://github.com/G0vermind/vereda-verify-soroban/blob/main/images/vereda%204.png)
 
 ---
 
