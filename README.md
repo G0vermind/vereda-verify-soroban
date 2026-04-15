@@ -478,33 +478,33 @@ stellar contract deploy \
 
 ## 📸 Screenshots — v1.0 (Prova White Belt)
 
-### Estado Desconectado
+### 1 — Estado Desconectado
 
 Antes de conectar a carteira, o app exibe os módulos da cadeia de suprimentos e solicita a conexão via Freighter.
 
-[](https://github.com/G0vermind/vereda-verify-soroban/blob/main/painel/docs/screenshots/0-disconnected.png)
+![Estado desconectado](painel/docs/screenshots/0-disconnected.png)
 
-### Módulos com Carteira Conectada
+### 2 — Carteira Conectada e Módulos Exibidos
 
 Após conectar, a barra lateral mostra imediatamente o **endereço da carteira** e o **saldo em XLM** (atualização automática).
 
 **Módulo Serraria:**
 Exibe o formulário em dois estágios (entrada de toras e despacho de venda).
-[](https://github.com/G0vermind/vereda-verify-soroban/blob/main/painel/docs/screenshots/1-serraria-connected.png)
+![Módulo Serraria](painel/docs/screenshots/1-serraria-connected.png)
 
 **Módulo Plantio:**
 Exibe o formulário utilizado para registrar o plantio com coordenadas GPS e número do CAR.
-[](https://github.com/G0vermind/vereda-verify-soroban/blob/main/painel/docs/screenshots/2-plantio-connected.png)
+![Módulo Plantio](painel/docs/screenshots/2-plantio-connected.png)
 
 **Módulo Viveiro:**
 Exibe o formulário utilizado para registrar o lote inicial de mudas.
-[](https://github.com/G0vermind/vereda-verify-soroban/blob/main/painel/docs/screenshots/3-viveiro-connected.png)
+![Módulo Viveiro](painel/docs/screenshots/3-viveiro-connected.png)
 
-### Transação Confirmada na Testnet
+### 3 — Transação Confirmada na Testnet e Resultado
 
 Após preencher o formulário e clicar em **"🛡️ ASSINAR E REGISTRAR ATIVO"**, o frontend gera um hash Merkle, solicita a assinatura na carteira Freighter e a transação XDR é enviada à Testnet, exibindo o Hash imutável.
 
-[](https://github.com/G0vermind/vereda-verify-soroban/blob/main/painel/docs/screenshots/4-success.png)
+![Transação bem-sucedida](painel/docs/screenshots/4-success.png)
 
 -----
 
