@@ -289,7 +289,7 @@ export default function App() {
                       {txStatus === 'PREPARING' && "⏳ Estruturando Transação..."}
                       {txStatus === 'SIGNING' && "📝 Aguardando sua Assinatura na Freighter..."}
                       {txStatus === 'BROADCASTING' && "🚀 Transmitindo para a Rede Global..."}
-                      {txStatus === 'SUCCESS' && "✅ Ativo Tokenizado com Sucesso!"}
+                      {txStatus === 'SUCCESS' && "✅ Registro realizado com sucesso!"}
                     </p>
                   </div>
                 )}
