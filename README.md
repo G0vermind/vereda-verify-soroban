@@ -73,7 +73,7 @@ Open **http://localhost:8080** in your browser.
 
 The app before wallet connection. The sidebar shows the three supply chain modules. The **"🔗 Conectar API Freighter"** button is visible in the top-right corner.
 
-![Disconnected state — Connect wallet prompt](painel/docs/screenshots/0-disconnected.png)
+![Disconnected state — Connect wallet prompt](https://github.com/G0vermind/vereda-verify-soroban/blob/main/images/vereda%200.png)
 
 ---
 
