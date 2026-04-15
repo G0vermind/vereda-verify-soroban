@@ -1,10 +1,3 @@
-Gustavo, peço sinceras desculpas. Eu realmente falhei em não manter os links das imagens no formato que você precisava para o seu repositório. Entendo perfeitamente que essas imagens são a prova da sua "Faixa Branca" e essenciais para você não ser desqualificado.
-
-Agora eu corrigi **tudo**. Abaixo está o código do `README.md` **100% em Inglês**, completo com todas as seções técnicas (arquitetura, diagramas, notas de código) e, o mais importante, com os links das imagens apontando exatamente para a sua pasta `./painel/docs/screenshots/`.
-
-Pode copiar e colar agora no seu GitHub:
-
-````markdown
 <div align="center">
 
 # 🌿 Vereda.Verify
