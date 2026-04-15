@@ -33,9 +33,9 @@ Each registration compresses all form data into a **Merkle-style cryptographic h
 
 ### Prerequisites
 
-- **Node.js** v18 or higher — [nodejs.org](https://nodejs.org)
-- **Freighter Wallet** browser extension — [freighter.app](https://freighter.app)
-- A funded **Stellar Testnet** account — get free XLM from the [Friendbot](https://laboratory.stellar.org/#account-creator?network=test)
+- **Node.js** v18 or higher → [nodejs.org](https://nodejs.org)
+- **Freighter Wallet** browser extension → [freighter.app](https://freighter.app)
+- A funded **Stellar Testnet** account → [Stellar Friendbot](https://laboratory.stellar.org/#account-creator?network=test)
 
 ### Installation
 
@@ -57,70 +57,70 @@ node node_modules/vite/bin/vite.js --port 8080
 
 Open **http://localhost:8080** in your browser.
 
-### Wallet Configuration
+### Wallet Setup
 
-1. Install the **Freighter** browser extension
-2. Open Freighter → Settings → **switch to Stellar Testnet**
-3. Copy your testnet public key
-4. Go to [Stellar Friendbot](https://laboratory.stellar.org/#account-creator?network=test) and paste it to receive **10,000 XLM**
-5. Return to the app and click **"🔗 Conectar API Freighter"**
+1. Install **Freighter** and open its settings
+2. Switch to **Stellar Testnet**
+3. Copy your public key and fund it via [Friendbot](https://laboratory.stellar.org/#account-creator?network=test) to receive 10,000 XLM
+4. Return to the app and click **"🔗 Conectar API Freighter"**
 
 ---
 
 ## Screenshots
 
-### 1. Disconnected State — Connect Wallet Prompt
+### 1 — Disconnected State
 
-The app before wallet connection. The sidebar shows the three supply chain modules. The **"🔗 Conectar API Freighter"** button is visible in the top-right corner.
+Before connecting a wallet, the app shows the three supply chain modules in the sidebar and prompts the user to connect via Freighter.
 
-![Disconnected state — Connect wallet prompt](https://github.com/G0vermind/vereda-verify-soroban/blob/main/images/vereda%200.png)
-
----
-
-### 2. Wallet Connected — Balance Displayed
-
-After connecting Freighter, the sidebar immediately displays the **wallet address** and **live XLM balance**. The form for the selected module becomes visible.
-
-**Viveiro module** (nursery registration):
-
-![Wallet connected — Viveiro module with balance](https://github.com/G0vermind/vereda-verify-soroban/blob/main/images/vereda%201.png)
-
-**Plantio module** (plantation tracking):
-
-![Wallet connected — Plantio module with balance](https://github.com/G0vermind/vereda-verify-soroban/blob/main/images/vereda%202.png)
-
-**Serraria module** (sawmill — two-stage form):
-
-![Wallet connected — Serraria module with balance](https://github.com/G0vermind/vereda-verify-soroban/blob/main/images/vereda%203.png)
+![Disconnected state — wallet not connected](images/vereda%200.png)
 
 ---
 
-### 3. Successful Testnet Transaction — Result Shown to User
+### 2 — Wallet Connected & Balance Displayed
 
-After filling the form and clicking **"🛡️ ASSINAR E REGISTRAR ATIVO"**, Freighter signs the transaction. The result panel shows:
+After connecting, the sidebar immediately shows the **wallet address** and **live XLM balance** (auto-refreshed every 15 seconds). The audit form for the active module becomes visible.
 
-- ✅ **"Ativo Tokenizado com Sucesso!"** confirmation box
-- The full **TX Hash** in green monospace
-- A **"🔍 Ver Certidão Pública"** button linking to Stellar Expert
+**Serraria module** — two-stage sawmill form (timber intake + sales dispatch):
 
-![Successful testnet transaction — result displayed to user](https://github.com/G0vermind/vereda-verify-soroban/blob/main/images/vereda%204.png)
+![Serraria module — wallet connected, balance displayed](images/vereda%201.png)
+
+**Plantio module** — plantation registration with GPS coordinates and CAR number:
+
+![Plantio module — wallet connected, balance displayed](images/vereda%202.png)
+
+**Viveiro module** — nursery registration for seedling lots:
+
+![Viveiro module — wallet connected, balance displayed](images/vereda%203.png)
+
+---
+
+### 3 — Successful Testnet Transaction & Result Shown to User
+
+After filling the form and clicking **"🛡️ ASSINAR E REGISTRAR ATIVO"**, Freighter signs the XDR transaction and broadcasts it to the Stellar Testnet. The result panel displays:
+
+- ✅ **"Ativo Tokenizado com Sucesso!"** confirmation
+- The full **TX Hash** in green monospace text
+- A direct link: **"🔍 Ver Certidão Pública"** → opens Stellar Expert
+
+![Successful testnet transaction — result shown to user](images/vereda%204.png)
 
 ---
 
 ## Live Transaction Proof
 
-> This transaction was broadcast to **Stellar Testnet** during development as proof of concept.
+> **This transaction was broadcast to Stellar Testnet as proof of concept.**
 
 | Field | Value |
 |-------|-------|
+| **Module** | 🌱 Viveiro Maravilha (Nursery) |
 | **Asset** | *Khaya senegalensis* — 5,000 seedlings |
 | **Lot ID** | MOG-VIV-26-001 |
 | **Engineer** | CREA-CE-12345/D — Carlos Silva |
 | **Network** | Stellar Testnet |
-| **Status** | ✅ Confirmed |
+| **Status** | ✅ Confirmed & Immutable |
 | **TX Hash** | `568292a30444fb2629c592eb4e7c2058cfdd653e6734d90ba05b518a7f2b4c8a` |
 
-### 🔍 [View on Stellar Expert →](https://stellar.expert/explorer/testnet/tx/568292a30444fb2629c592eb4e7c2058cfdd653e6734d90ba05b518a7f2b4c8a)
+### 🔍 [View Public Certificate on Stellar Expert →](https://stellar.expert/explorer/testnet/tx/568292a30444fb2629c592eb4e7c2058cfdd653e6734d90ba05b518a7f2b4c8a)
 
 ---
 
@@ -140,18 +140,19 @@ After filling the form and clicking **"🛡️ ASSINAR E REGISTRAR ATIVO"**, Fre
 
 ```
 vereda-verify-soroban/
+├── images/                  ← App screenshots
 └── painel/
     ├── src/
-    │   ├── App.tsx       # All UI, state, and blockchain logic
-    │   ├── main.tsx      # React entry point
-    │   └── index.css     # Global reset (light-mode enforced)
-    └── vite.config.ts    # Buffer polyfill for Stellar SDK
+    │   ├── App.tsx          # All UI, state, and blockchain logic
+    │   ├── main.tsx         # React entry point
+    │   └── index.css        # Global reset (light-mode enforced)
+    └── vite.config.ts       # Buffer polyfill for Stellar SDK
 ```
 
 ### Transaction Flow
 
 ```
-User fills form  →  Merkle hash generated
+User fills form  →  Merkle hash generated (form data compressed)
         ↓
 TransactionBuilder: memo = "VV-{MODULE}-{HASH}"
         ↓
@@ -159,24 +160,35 @@ Freighter signs XDR  →  { signedTxXdr }
         ↓
 Horizon broadcasts  →  { txHash }
         ↓
-"Ver Certidão Pública"  →  Stellar Expert link
+"Ver Certidão Pública"  →  Permanent Stellar Expert link
 ```
 
 ---
 
-## Freighter API v6 — Key Implementation Notes
+## Key Technical Notes
 
-This project correctly handles Freighter **v6.0.1** breaking changes:
+### Freighter API v6 — Breaking Changes
 
 ```typescript
-// isConnected() now returns an object, not a boolean
+// ✅ isConnected() now returns an object, not a boolean
 const { isConnected } = await isConnected();
 
-// requestAccess() now returns { address, error? }
+// ✅ requestAccess() now returns { address, error? }
 const { address, error } = await requestAccess();
 
-// signTransaction opts: 'network' field removed, only networkPassphrase
+// ✅ 'network' field removed — only networkPassphrase accepted
 const { signedTxXdr } = await signTransaction(xdr, { networkPassphrase });
+```
+
+### Buffer Polyfill (Required for Stellar SDK in browser)
+
+```typescript
+// vite.config.ts
+export default defineConfig({
+  define:       { global: 'globalThis' },
+  resolve:      { alias: { buffer: 'buffer/' } },
+  optimizeDeps: { include: ['buffer'] },
+})
 ```
 
 ---
@@ -185,9 +197,15 @@ const { signedTxXdr } = await signTransaction(xdr, { networkPassphrase });
 
 - [ ] Real SHA-256 hashing via Web Crypto API
 - [ ] IPFS document storage integration
-- [ ] Soroban smart contract registry
+- [ ] Soroban smart contract on-chain registry
 - [ ] Mainnet deployment
-- [ ] PDF certificate generation
+- [ ] PDF certificate generation from TX hash
+
+---
+
+## Related Projects
+
+- **[Florestas.Social Protocol](https://github.com/G0vermind/social-forests-protocol)** — The broader RWA tokenization protocol for sustainable forestry
 
 ---
 
