@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { isConnected, requestAccess, signTransaction } from '@stellar/freighter-api';
+import { isConnected, requestAccess, signTransaction, getNetworkDetails } from '@stellar/freighter-api';
 import * as StellarSdk from '@stellar/stellar-sdk';
 import './App.css';
 
@@ -9,7 +9,10 @@ type TxStatus = 'IDLE' | 'PREPARING' | 'SIGNING' | 'BROADCASTING' | 'SUCCESS' | 
 
 export default function App() {
   const [wallet, setWallet] = useState<string | null>(null);
-  const [balance, setBalance] = useState<string>('0.00');
+  const [balance, setBalance] = useState<string>('—');
+  const [balanceLoading, setBalanceLoading] = useState<boolean>(false);
+  const [networkName, setNetworkName] = useState<string>('TESTNET');
+  const [horizonUrl, setHorizonUrl] = useState<string>('https://horizon-testnet.stellar.org');
   const [activeModule, setActiveModule] = useState<Modulo>('VIVEIRO');
 
   // Status da Transação
@@ -17,7 +20,7 @@ export default function App() {
   const [txHash, setTxHash] = useState<string | null>(null);
   const [payloadHash, setPayloadHash] = useState<string>('');
 
-  // Formulário Unificado (Agora com dados comerciais de venda)
+  // Formulário Unificado
   const [formData, setFormData] = useState({
     loteId: '', especie: 'Khaya senegalensis', quantidade: '',
     responsavelCrea: '', hashCertificado: '',
@@ -38,25 +41,61 @@ export default function App() {
   }, [formData, activeModule]);
 
   const connectWallet = async () => {
-    if (await isConnected()) {
-      const response: any = await requestAccess();
-      const address = typeof response === 'string' ? response : response.address;
+    // Freighter API v6: isConnected() retorna { isConnected: boolean }
+    const connectionStatus = await isConnected();
+    if (connectionStatus.isConnected) {
+      const response = await requestAccess();
+      // Freighter API v6: requestAccess() retorna { address: string, error? }
+      if (response.error) {
+        alert(`Erro ao conectar: ${response.error}`);
+        return;
+      }
+      const address = response.address;
       if (address) {
+        // Detecta a rede atual da Freighter para usar o Horizon correto
+        const netDetails = await getNetworkDetails();
+        const url = netDetails.networkUrl || 'https://horizon-testnet.stellar.org';
+        const netLabel = netDetails.network === 'PUBLIC'
+          ? 'MAINNET'
+          : netDetails.network || 'TESTNET';
+        setHorizonUrl(url);
+        setNetworkName(netLabel);
         setWallet(address);
-        fetchBalance(address);
+        fetchBalance(address, url);
       }
     } else {
-      alert("Extensão Freighter não detectada!");
+      alert("Extensão Freighter não detectada! Instale em freighter.app");
     }
   };
 
-  const fetchBalance = async (address: string) => {
+  // Atualiza saldo automaticamente a cada 15s enquanto a carteira estiver conectada
+  useEffect(() => {
+    if (!wallet) return;
+    const interval = setInterval(() => fetchBalance(wallet, horizonUrl), 15000);
+    return () => clearInterval(interval);
+  }, [wallet, horizonUrl]);
+
+  const fetchBalance = async (address: string, url?: string) => {
+    setBalanceLoading(true);
+    const endpoint = url || horizonUrl;
     try {
-      const response = await fetch(`https://horizon-testnet.stellar.org/accounts/${address}`);
+      const response = await fetch(`${endpoint}/accounts/${address}`);
+      if (!response.ok) {
+        // Conta pode não existir na rede (sem XLM)
+        setBalance('0.0000000');
+        return;
+      }
       const data = await response.json();
-      const native = data.balances.find((b: any) => b.asset_type === 'native');
-      if (native) setBalance(parseFloat(native.balance).toFixed(2));
-    } catch (e) { console.error(e); }
+      const native = data.balances?.find((b: any) => b.asset_type === 'native');
+      // Exibe 7 casas decimais — precisão nativa do Stellar (1 XLM = 10.000.000 stroops)
+      if (native) setBalance(parseFloat(native.balance).toFixed(7));
+      else setBalance('0.0000000');
+    } catch (e) {
+      console.error('Erro ao buscar saldo:', e);
+      setBalance('Erro');
+    } finally {
+      setBalanceLoading(false);
+    }
   };
 
   const registrarNaBlockchain = async () => {
@@ -69,10 +108,11 @@ export default function App() {
       const account = await server.loadAccount(wallet);
 
       const memoRef = `VV-${activeModule.substring(0, 3)}-${payloadHash.substring(0, 18)}`;
+      const passPhrase = "Test SDF Network ; September 2015";
 
       const transaction = new StellarSdk.TransactionBuilder(account, {
         fee: StellarSdk.BASE_FEE,
-        networkPassphrase: "Test SDF Network ; September 2015"
+        networkPassphrase: passPhrase
       })
         .addOperation(StellarSdk.Operation.payment({
           destination: wallet,
@@ -85,21 +125,30 @@ export default function App() {
 
       setTxStatus('SIGNING');
       const xdr = transaction.toXDR();
-      const signedTx: any = await signTransaction(xdr, { network: "TESTNET" } as any);
-      const signedXdr = typeof signedTx === 'string' ? signedTx : signedTx.signedTxXdr;
 
-      if (signedXdr) {
-        setTxStatus('BROADCASTING');
-        const txToSubmit = StellarSdk.TransactionBuilder.fromXDR(signedXdr, "Test SDF Network ; September 2015");
-        const response = await server.submitTransaction(txToSubmit);
-        setTxHash(response.hash);
-        setTxStatus('SUCCESS');
-        fetchBalance(wallet);
-      } else {
+      // Freighter API v6: signTransaction aceita apenas { networkPassphrase, address? }
+      // O campo 'network' foi removido na v6
+      const signedResult = await signTransaction(xdr, {
+        networkPassphrase: passPhrase
+      });
+
+      // Freighter API v6: resultado sempre é { signedTxXdr, signerAddress, error? }
+      if (signedResult.error || !signedResult.signedTxXdr) {
+        console.error('Erro na assinatura:', signedResult.error);
         setTxStatus('ERROR');
+        return;
       }
+
+      const signedXdr = signedResult.signedTxXdr;
+
+      setTxStatus('BROADCASTING');
+      const txToSubmit = StellarSdk.TransactionBuilder.fromXDR(signedXdr, passPhrase);
+      const response = await server.submitTransaction(txToSubmit);
+      setTxHash(response.hash);
+      setTxStatus('SUCCESS');
+      fetchBalance(wallet);
     } catch (error) {
-      console.error(error);
+      console.error('Erro na transação:', error);
       setTxStatus('ERROR');
     }
   };
@@ -174,13 +223,22 @@ export default function App() {
 
         <div style={layout.networkBox}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '10px' }}>
-            <div style={{ width: '10px', height: '10px', borderRadius: '50%', backgroundColor: '#2ecc71' }}></div>
-            <span style={{ fontSize: '12px', color: '#a4b0be', fontWeight: 'bold' }}>STELLAR TESTNET</span>
+            <div style={{ width: '10px', height: '10px', borderRadius: '50%', backgroundColor: networkName === 'MAINNET' ? '#e74c3c' : '#2ecc71' }}></div>
+            <span style={{ fontSize: '12px', color: '#a4b0be', fontWeight: 'bold' }}>STELLAR {networkName}</span>
           </div>
           {wallet ? (
             <>
               <p style={{ fontSize: '10px', color: '#7bed9f', wordBreak: 'break-all' }}>{wallet}</p>
-              <p style={{ fontSize: '18px', color: 'white', fontWeight: 'bold', marginTop: '5px' }}>{balance} XLM</p>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginTop: '5px' }}>
+                <p style={{ fontSize: '16px', color: 'white', fontWeight: 'bold', margin: 0 }}>
+                  {balanceLoading ? '⏳ ...' : `${balance} XLM`}
+                </p>
+                <button
+                  onClick={() => fetchBalance(wallet)}
+                  title="Atualizar saldo"
+                  style={{ background: 'transparent', border: 'none', color: '#2ecc71', cursor: 'pointer', fontSize: '14px', padding: '2px 4px' }}
+                >↻</button>
+              </div>
             </>
           ) : (
             <p style={{ fontSize: '12px', color: '#eccc68' }}>Desconectado</p>
@@ -236,7 +294,13 @@ export default function App() {
                   </div>
                 )}
 
-                {txStatus === 'ERROR' && <p style={{ color: '#e74c3c', fontSize: '12px', marginTop: '10px' }}>Erro na comunicação. Verifique a carteira e tente novamente.</p>}
+                {txStatus === 'ERROR' && (
+                  <div style={{ marginTop: '15px', padding: '10px', backgroundColor: '#ffeaa7', borderRadius: '8px', border: '1px solid #fdcb6e' }}>
+                    <p style={{ color: '#d63031', fontSize: '12px', fontWeight: 'bold', margin: 0 }}>Erro ou Cancelamento.</p>
+                    <p style={{ color: '#d63031', fontSize: '11px', margin: '5px 0 0 0' }}>Se a Freighter travou, feche a aba, recarregue a página (F5) e tente novamente.</p>
+                    <button onClick={() => setTxStatus('IDLE')} style={{ marginTop: '10px', fontSize: '11px', padding: '5px 10px', cursor: 'pointer' }}>Tentar Novamente</button>
+                  </div>
+                )}
 
                 {txStatus === 'SUCCESS' && txHash && (
                   <div style={{ marginTop: '20px' }}>

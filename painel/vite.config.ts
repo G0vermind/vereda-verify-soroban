@@ -5,8 +5,15 @@ export default defineConfig({
   plugins: [react()],
   resolve: {
     alias: {
-      // Isso garante que o SDK use a versão correta do Buffer para transações
-      'Buffer': 'buffer',
+      // Polyfill correto do Buffer para o Stellar SDK no browser
+      buffer: 'buffer/',
     },
+  },
+  define: {
+    // Torna o Buffer globalmente disponível (necessário para o Stellar SDK)
+    global: 'globalThis',
+  },
+  optimizeDeps: {
+    include: ['buffer'],
   },
 })
