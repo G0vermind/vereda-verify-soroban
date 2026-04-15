@@ -266,7 +266,29 @@ Built with 🌱 for sustainable forestry and transparent supply chains.
 **[Stellar Expert TX](https://stellar.expert/explorer/testnet/tx/568292a30444fb2629c592eb4e7c2058cfdd653e6734d90ba05b518a7f2b4c8a)** · **[Freighter](https://freighter.app)** · **[Stellar](https://stellar.org)** · **[Soroban](https://soroban.stellar.org)**
 
 </div>
+---
+<br>
 
+<div align="center">
+
+# 🌿 Vereda.Verify (Português)
+### RWA & Timber Tracking on Stellar
+
+**Painel de auditoria e rastreabilidade para ativos florestais sustentáveis**
+Mogno Africano (*Khaya senegalensis*) · Florestas.Social · Indústria Sómogno
+
+---
+
+[![Stellar](https://img.shields.io/badge/Stellar-Testnet-2ecc71?style=for-the-badge&logo=stellar&logoColor=white)](https://stellar.org)
+[![Rust](https://img.shields.io/badge/Rust-1.77+-000000?style=for-the-badge&logo=rust&logoColor=white)](https://www.rust-lang.org/)
+[![Soroban](https://img.shields.io/badge/Soroban-v2.0_WIP-1a1a2e?style=for-the-badge&logo=rust&logoColor=white)](https://soroban.stellar.org)
+[![React](https://img.shields.io/badge/React-19-61dafb?style=for-the-badge&logo=react&logoColor=black)](https://react.dev)
+[![TypeScript](https://img.shields.io/badge/TypeScript-6-3178c6?style=for-the-badge&logo=typescript&logoColor=white)](https://www.typescriptlang.org)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow?style=for-the-badge)](LICENSE)
+
+</div>
+
+---
 ## 📖 Sobre o Projeto
 
 O **Vereda.Verify** é um painel de auditoria e rastreabilidade de nível profissional para o protocolo [Florestas.Social](https://florestas.social). Ele rastreia lotes de Mogno Africano ao longo de toda a cadeia produtiva — do viveiro à serraria — ancorando dados criptográficos na rede Stellar de forma imutável e publicamente verificável.
