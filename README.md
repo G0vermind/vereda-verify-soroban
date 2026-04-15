@@ -36,7 +36,45 @@ Each registered asset produces a **public, verifiable certificate** on the block
 | **Status** | ✅ Confirmed & Immutable |
 | **TX Hash** | `568292a30444fb2629c592eb4e7c2058cfdd653e6734d90ba05b518a7f2b4c8a` |
 
-🔍 **[View Public Certificate on Stellar Expert →](https://stellar.expert/explorer/testnet/tx/568292a30444fb2629c592eb4e7c2058cfdd653e6734d90ba05b518a7f2b4c8a)**
+### 🔍 [View Public Certificate on Stellar Expert →](https://stellar.expert/explorer/testnet/tx/568292a30444fb2629c592eb4e7c2058cfdd653e6734d90ba05b518a7f2b4c8a)
+
+---
+
+## Interface
+
+The dashboard has a **dark forest-green sidebar** with three navigation modules and a main white content area. Below is a description of each screen:
+
+### 🔌 Disconnected State
+The sidebar shows `Vereda.Verify` brand, three module buttons (Viveiro, Plantio, Serraria), and a `● STELLAR TESTNET – Desconectado` status box at the bottom. The main area displays a **"🔗 Conectar API Freighter"** button in the top-right corner. No form is visible until the wallet is connected.
+
+### 🌱 Module: Viveiro Maravilha (Nursery)
+Form fields:
+- Identificação do Lote (Sementes)
+- Espécie Arbórea *(pre-filled: Khaya senegalensis — read-only)*
+- Quantidade Produzida (Mudas)
+- Engenheiro / Responsável (CREA)
+- Hash de Outros Docs (Certificados)
+
+### 🌳 Module: Florestas.Social (Plantation)
+Form fields:
+- Lote de Origem (Viveiro)
+- CAR da Propriedade (Imóvel Rural)
+- GPS Latitude / GPS Longitude
+- Área de Plantio (Hectares)
+
+### 🪚 Module: Indústria Sómogno (Sawmill)
+Two sections:
+1. **Recepção da Tora (Entrada)** — Lote de Origem, NF-e de Entrada, Licença de Operação (SEMACE/LO)
+2. **Expedição e Venda (Saída)** — Cliente Comprador, NF-e de Venda, Volume Faturado (m³), Hash de Romaneio/Contrato
+
+### ✅ After Registration
+On success, the right panel shows:
+- A dashed box: **"✅ Ativo Tokenizado com Sucesso!"**
+- The full **TX Hash** in green monospace text
+- A **"🔍 Ver Certidão Pública"** button linking to Stellar Expert
+
+### 🔐 Merkle Data Payload (always visible)
+A dark card shows the live cryptographic hash of the form data — updates in real-time as the user types. This is the payload embedded in the on-chain transaction memo.
 
 ---
 
@@ -59,41 +97,12 @@ Each registered asset produces a **public, verifiable certificate** on the block
 - Auto-detects the Freighter wallet's active network (**Testnet** or **Mainnet**)
 - Queries the correct **Horizon API** endpoint automatically — no hardcoded URLs
 - **Balance auto-refreshes** every 15 seconds with 7-decimal Stellar-native precision
-- Manual refresh button (↻) always available
+- Indicator dot: 🟢 Testnet / 🔴 Mainnet
 
 ### 💼 Wallet Integration (Freighter API v6)
 - Full **Freighter API v6** support with proper breaking-change handling
 - One-click connect, sign, and broadcast flow
 - Error messages surface directly in the UI (no silent failures)
-
----
-
-## Screenshots
-
-<table>
-  <tr>
-    <td align="center"><b>Disconnected</b></td>
-    <td align="center"><b>Viveiro Module</b></td>
-  </tr>
-  <tr>
-    <td><img src="painel/docs/screenshots/disconnected.png" alt="Disconnected state" width="480"/></td>
-    <td><img src="painel/docs/screenshots/viveiro.png" alt="Viveiro module" width="480"/></td>
-  </tr>
-  <tr>
-    <td align="center"><b>Plantio Module</b></td>
-    <td align="center"><b>Serraria Module</b></td>
-  </tr>
-  <tr>
-    <td><img src="painel/docs/screenshots/plantio.png" alt="Plantio module" width="480"/></td>
-    <td><img src="painel/docs/screenshots/serraria.png" alt="Serraria module" width="480"/></td>
-  </tr>
-  <tr>
-    <td colspan="2" align="center"><b>✅ Successful Tokenization</b></td>
-  </tr>
-  <tr>
-    <td colspan="2" align="center"><img src="painel/docs/screenshots/success.png" alt="Successful on-chain registration" width="700"/></td>
-  </tr>
-</table>
 
 ---
 
@@ -134,7 +143,7 @@ node node_modules/vite/bin/vite.js --port 8080
 
 Open **http://localhost:8080** in your browser.
 
-> **Note (Windows):** If `npm run dev` fails with a PowerShell execution policy error, use `node node_modules/vite/bin/vite.js` directly.
+> **Note (Windows PowerShell):** If `npm run dev` fails with an execution policy error, use `node node_modules/vite/bin/vite.js` directly.
 
 ### Usage
 
@@ -158,7 +167,7 @@ vereda-verify-soroban/
     │   ├── App.tsx          # Main component — UI, state, and blockchain logic
     │   ├── main.tsx         # React entry point
     │   ├── App.css          # Component-scoped styles
-    │   └── index.css        # Global reset (light-mode enforced, input fixes)
+    │   └── index.css        # Global reset (light-mode enforced, input readability)
     ├── vite.config.ts       # Buffer polyfill for Stellar SDK in browser
     ├── tsconfig.app.json    # TypeScript configuration
     └── package.json         # Dependencies
@@ -192,8 +201,8 @@ This project uses Freighter API **v6.0.1**, which introduced breaking changes fr
 
 ```typescript
 // ✅ Correct v6 usage
-const { isConnected } = await isConnected();      // object, not boolean
-const { address } = await requestAccess();         // object, not string
+const { isConnected } = await isConnected();       // object, not boolean
+const { address, error } = await requestAccess();  // object, not string
 const { signedTxXdr } = await signTransaction(xdr, {
   networkPassphrase: passPhrase                    // 'network' field removed in v6
 });
@@ -226,7 +235,6 @@ export default defineConfig({
 ## Related Projects
 
 - **[Florestas.Social Protocol](https://github.com/G0vermind/social-forests-protocol)** — The broader RWA tokenization protocol for sustainable forestry
-- **RWA Vault Contract** — SEP-41 compliant Soroban smart contract for African Mahogany tokenization
 
 ---
 
