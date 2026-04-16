@@ -1,6 +1,30 @@
 [package]
-name = "contrato-vereda"
-version = "0.1.0"
-edition = "2024"
+name    = "vereda-verify"
+version = "0.2.0"
+edition = "2021"
+
+# =============================================================================
+# IMPORTANTE: Soroban exige a feature "testutils" APENAS em modo de teste.
+# Nunca inclua "testutils" no binário de produção — aumenta o tamanho do WASM.
+# =============================================================================
+
+[lib]
+crate-type = ["cdylib", "rlib"]
+
+[features]
+testutils = ["soroban-sdk/testutils"]
 
 [dependencies]
+soroban-sdk = { version = "21.0.0", features = [] }
+
+[dev-dependencies]
+soroban-sdk = { version = "21.0.0", features = ["testutils"] }
+
+[profile.release]
+opt-level    = "z"     # Tamanho mínimo do WASM — obrigatório para deploy
+overflow-checks = true  # Segurança aritmética ativa em produção
+debug        = false
+strip        = "symbols"
+lto          = true
+codegen-units = 1
+panic        = "abort"
