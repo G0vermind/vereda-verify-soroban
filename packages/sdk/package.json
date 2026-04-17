@@ -1,0 +1,14 @@
+{
+  "name": "@vereda/sdk",
+  "version": "1.0.0",
+  "type": "module",
+  "main": "./index.ts",
+  "dependencies": {
+    "@stellar/stellar-sdk": "^13.1.0",
+    "@creit.tech/stellar-wallets-kit": "^1.4.0"
+  },
+  "devDependencies": {
+    "typescript": "^5.4.0",
+    "@types/node": "^20.0.0"
+  }
+}
