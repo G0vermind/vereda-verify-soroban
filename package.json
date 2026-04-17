@@ -1,1 +1,1 @@
-{"name": "vereda-protocol", "private": true, "workspaces": ["apps/*", "packages/*"]}
+{"name": "vereda-protocol", "private": true, "workspaces": ["apps/painel", "packages/sdk"]}

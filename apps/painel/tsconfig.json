@@ -2,14 +2,12 @@
   "compilerOptions": {
     "target": "ESNext",
     "module": "ESNext",
-    "moduleResolution": "bundler",
-    "allowImportingTsExtensions": false,
+    "moduleResolution": "node",
     "lib": ["ESNext", "DOM", "DOM.Iterable"],
     "strict": true,
-    "declaration": true,
     "esModuleInterop": true,
     "skipLibCheck": true,
     "jsx": "react-jsx"
   },
-  "include": ["hooks/**/*", "index.ts"]
+  "include": ["src"]
 }

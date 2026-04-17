@@ -1,16 +1,16 @@
 import { useState, useCallback } from 'react';
-import {
-    StellarWalletsKit,
-    WalletNetwork,
-    allowAllModules,
-    FREIGHTER_ID
-} from '@creit.tech/stellar-wallets-kit';
+import { StellarWalletsKit, Networks } from '@creit.tech/stellar-wallets-kit';
+import { FreighterModule } from '@creit.tech/stellar-wallets-kit/modules/freighter';
+import { xBullModule } from '@creit.tech/stellar-wallets-kit/modules/xbull';
+import { AlbedoModule } from '@creit.tech/stellar-wallets-kit/modules/albedo';
 
-// Kit inicializado com todos os módulos disponíveis
-const kit = new StellarWalletsKit({
-    network: WalletNetwork.TESTNET,
-    selectedWalletId: FREIGHTER_ID,
-    modules: allowAllModules(),
+StellarWalletsKit.init({
+    network: Networks.TESTNET,
+    modules: [
+        new FreighterModule(),
+        new xBullModule(),
+        new AlbedoModule()
+    ]
 });
 
 export const useVereda = () => {
@@ -20,31 +20,12 @@ export const useVereda = () => {
     const connect = useCallback(async () => {
         try {
             setError(null);
-
-            await kit.openModal({
-                onWalletSelected: async (option) => {
-                    kit.setWallet(option.id);
-                    const { address } = await kit.getAddress();
-                    setAddress(address);
-                },
-            });
-
+            const { address } = await StellarWalletsKit.authModal();
+            setAddress(address);
         } catch (err) {
-            console.error('Erro ao conectar:', err);
-            setError('Falha na conexão com a carteira');
+            setError('Falha na conexão Multiwallet.');
         }
     }, []);
 
-    const disconnect = useCallback(() => {
-        setAddress(null);
-        setError(null);
-    }, []);
-
-    return {
-        address,
-        connect,
-        disconnect,
-        isConnected: !!address,
-        error,
-    };
+    return { address, connect, isConnected: !!address, error };
 };
