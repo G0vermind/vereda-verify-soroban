@@ -1,72 +1,25 @@
-/* Reset e base neutra para o Vereda Verify */
-*, *::before, *::after {
-  box-sizing: border-box;
+@import "tailwindcss";
+
+@theme {
+  --color-forest-50: #f0fdf4;
+  --color-forest-100: #dcfce7;
+  --color-forest-500: #22c55e;
+  --color-forest-600: #16a34a;
+  --color-forest-700: #15803d;
+  --color-forest-800: #166534;
+  --color-forest-900: #14532d;
+  
+  --color-charcoal-800: #1f2937;
+  --color-charcoal-900: #111827;
+  --color-charcoal-950: #030712;
 }
 
-/* Força tema claro — o app usa CSS-in-JS próprio */
-:root {
-  color-scheme: light;
-  font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-  font-size: 16px;
-  line-height: 1.5;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
+@layer base {
+  body {
+    @apply bg-gray-50 text-gray-900 transition-colors duration-200;
+  }
 
-html, body {
-  margin: 0;
-  padding: 0;
-  width: 100%;
-  height: 100%;
-  background-color: #f4f7f6;
-  color: #2c3e50;
+  html.dark body {
+    @apply bg-charcoal-950 text-gray-100;
+  }
 }
-
-/* O #root ocupa todo o espaço sem interferir no layout do app */
-#root {
-  width: 100%;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-}
-
-/* Garante que inputs, selects e textareas sempre tenham texto legível */
-input,
-input[type="text"],
-input[type="number"],
-input[type="email"],
-input[type="password"],
-select,
-textarea {
-  color: #2c3e50 !important;
-  background-color: #ffffff !important;
-  -webkit-text-fill-color: #2c3e50 !important;
-}
-
-input:disabled,
-input[disabled] {
-  color: #7f8c8d !important;
-  background-color: #ecf0f1 !important;
-  -webkit-text-fill-color: #7f8c8d !important;
-}
-
-/* Placeholder legível */
-input::placeholder,
-textarea::placeholder {
-  color: #b2bec3 !important;
-  opacity: 1;
-}
-
-/* Remove outline azul padrão dos inputs — o app controla o foco */
-input:focus,
-select:focus,
-textarea:focus {
-  outline: none;
-}
-
-/* Botões base */
-button {
-  font-family: inherit;
-  cursor: pointer;
-}
-

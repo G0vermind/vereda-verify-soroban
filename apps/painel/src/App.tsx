@@ -1,38 +1,89 @@
+import { useState, useEffect } from 'react';
+import { ThemeProvider } from './contexts/ThemeContext';
+import { Navbar } from './components/Navbar';
+import { IntroPage } from './components/IntroPage';
+import RegistroRWA from './components/RegistroRWA';
+import ConsultaRWA from './components/ConsultaRWA';
+import { ShieldCheck, Database, CheckCircle2 } from 'lucide-react';
 import { useVereda } from '@vereda/sdk';
-import { ShieldCheck, Cpu, Wallet } from 'lucide-react';
 
-function App() {
-  const { address, connect, isConnected, error } = useVereda();
+function Dashboard() {
+  const [activeTab, setActiveTab] = useState<'registro' | 'consulta'>('registro');
 
   return (
-    <div style={{ backgroundColor: '#09090b', color: '#fafafa', minHeight: '100vh', fontFamily: 'sans-serif' }}>
-      <nav style={{ padding: '20px 50px', display: 'flex', justifyContent: 'space-between', borderBottom: '1px solid #27272a' }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-          <ShieldCheck size={32} color="#3b82f6" />
-          <span style={{ fontSize: '24px', fontWeight: 'bold' }}>VEREDA <span style={{ color: '#3b82f6' }}>VERIFY</span></span>
-        </div>
-        <span style={{ color: '#71717a', fontSize: '12px' }}>MASTERCLASS • V2.0 EVOLUTION</span>
-      </nav>
-
-      <main style={{ maxWidth: '800px', margin: '100px auto', textAlign: 'center' }}>
-        <h1 style={{ fontSize: '56px', fontWeight: '900', marginBottom: '30px', letterSpacing: '-2px' }}>
-          Conectividade <span style={{ color: '#3b82f6' }}>Multiwallet</span>
-        </h1>
-
-        {!isConnected ? (
-          <button onClick={connect} style={{ backgroundColor: '#3b82f6', color: 'white', padding: '18px 45px', borderRadius: '12px', fontSize: '18px', fontWeight: 'bold', border: 'none', cursor: 'pointer', display: 'inline-flex', alignItems: 'center', gap: '12px', boxShadow: '0 0 30px rgba(59, 130, 246, 0.3)' }}>
-            <Cpu size={22} /> Conectar Wallet
+    <div className="max-w-7xl mx-auto px-6 py-8 transition-colors">
+      
+      <div className="flex justify-center mb-10">
+        <div className="bg-gray-100 dark:bg-charcoal-900 border border-gray-200 dark:border-charcoal-800 p-1.5 rounded-xl inline-flex gap-2 shadow-inner">
+          <button 
+            onClick={() => setActiveTab('registro')}
+            className={`px-6 py-2.5 rounded-lg font-bold text-sm transition-all flex items-center gap-2 ${activeTab === 'registro' ? 'bg-white dark:bg-charcoal-800 text-forest-600 dark:text-forest-400 shadow-sm' : 'text-gray-500 hover:text-gray-700 dark:hover:text-gray-300'}`}
+          >
+            <ShieldCheck size={18} />
+            Registro Criptográfico
           </button>
-        ) : (
-          <div style={{ backgroundColor: '#18181b', padding: '40px', borderRadius: '20px', border: '1px solid #27272a' }}>
-            <p style={{ color: '#22c55e', marginBottom: '15px', fontWeight: 'bold' }}>SISTEMA ON-CHAIN ATIVO</p>
-            <code style={{ fontSize: '18px', color: '#3b82f6' }}>{address}</code>
-          </div>
-        )}
-        {error && <p style={{ color: '#ef4444', marginTop: '20px' }}>{error}</p>}
-      </main>
+          <button 
+            onClick={() => setActiveTab('consulta')}
+            className={`px-6 py-2.5 rounded-lg font-bold text-sm transition-all flex items-center gap-2 ${activeTab === 'consulta' ? 'bg-white dark:bg-charcoal-800 text-forest-600 dark:text-forest-400 shadow-sm' : 'text-gray-500 hover:text-gray-700 dark:hover:text-gray-300'}`}
+          >
+            <Database size={18} />
+            Explorer de Ativos (Transparência)
+          </button>
+        </div>
+      </div>
+
+      <div className="animate-in fade-in slide-in-from-bottom-4 duration-500">
+        {activeTab === 'registro' ? <RegistroRWA /> : <ConsultaRWA />}
+      </div>
     </div>
   );
 }
 
-export default App;
+function MainApp() {
+  const [route, setRoute] = useState<'intro' | 'dashboard'>('intro');
+  const { status, txHash } = useVereda();
+  const [showNotification, setShowNotification] = useState(false);
+
+  useEffect(() => {
+    // Activity Feed Event Sync Requirement
+    if (status === 'success') {
+      setShowNotification(true);
+      const timer = setTimeout(() => setShowNotification(false), 8000);
+      return () => clearTimeout(timer);
+    }
+  }, [status]);
+
+  return (
+    <div className="min-h-screen bg-gray-50 dark:bg-charcoal-950 transition-colors relative pb-20">
+      <Navbar onNavigate={(page) => setRoute(page as 'intro' | 'dashboard')} />
+      
+      {route === 'intro' && <IntroPage onEnter={() => setRoute('dashboard')} />}
+      {route === 'dashboard' && <Dashboard />}
+
+      {/* YELLOW BELT: Activity Feed - Stream contract events as notifications */}
+      {showNotification && (
+        <div className="fixed bottom-6 right-6 bg-forest-900 border border-forest-500 rounded-xl p-4 shadow-2xl flex items-center gap-4 animate-in slide-in-from-right-8 fade-in z-50 max-w-sm">
+          <div className="bg-forest-500 p-2 rounded-full text-white">
+            <CheckCircle2 size={20} />
+          </div>
+          <div>
+            <h4 className="text-white font-bold text-sm leading-tight">Novo Evento On-Chain Recebido</h4>
+            <p className="text-forest-200 text-xs font-mono truncate mt-1">Hash: {txHash?.slice(0, 15)}...</p>
+          </div>
+        </div>
+      )}
+    </div>
+  )
+}
+
+import { VeredaProvider } from '@vereda/sdk';
+
+export default function App() {
+  return (
+    <VeredaProvider>
+      <ThemeProvider>
+        <MainApp />
+      </ThemeProvider>
+    </VeredaProvider>
+  );
+}
